@@ -5,9 +5,10 @@ import { withStyles } from "@material-ui/core/styles";
 // import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
 
 const Map = ({ classes }) => {
-  return <div>Map</div>;
+  return <div>Map</div>; // <div className={classes.popupImage}>Map</div>
 };
 
+// const styles = (theme) => ({}); // or just object const styles = {};
 const styles = {
   root: {
     display: "flex"
