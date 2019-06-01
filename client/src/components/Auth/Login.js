@@ -19,12 +19,16 @@ const Login = ({ classes }) => {
       });
       const { me } = await client.request(ME_QUERY);
       dispatch({ type: "LOGIN_USER", payload: me });
+      dispatch({ type: "IS_LOGGED_IN", payload: googleUser.isSignedIn() }); // true/false
     } catch (error) {
       onFailure(error);
     }
   };
 
-  const onFailure = (error) => console.error("Error loggin in: ", error);
+  const onFailure = (error) => {
+    console.error("Error loggin in: ", error);
+    dispatch({ type: "IS_LOGGED_IN", payload: false });
+  };
 
   return (
     <div className={classes.root}>
@@ -43,6 +47,7 @@ const Login = ({ classes }) => {
         onSuccess={onSuccess}
         onFailure={onFailure}
         isSignedIn={true}
+        buttonText="Login with Google"
         theme="dark"
       />
     </div>
