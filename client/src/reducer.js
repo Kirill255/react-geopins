@@ -34,6 +34,12 @@ export default function reducer(state, { type, payload }) {
         draft: payload
       };
 
+    case "DELETE_DRAFT":
+      return {
+        ...state,
+        draft: null
+      };
+
     default:
       return state;
   }
