@@ -8,7 +8,7 @@ https://github.com/leonardocouy/geopins
 
 https://github.com/DenisRebenok/geopins
 
-# troubleshooting
+## troubleshooting
 
 1. `MongoNetworkError: connection 5`
 

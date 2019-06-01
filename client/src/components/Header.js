@@ -1,12 +1,43 @@
-import React from "react";
+import React, { useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
-// import AppBar from "@material-ui/core/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
-// import Map from "@material-ui/icons/Map";
-// import Typography from "@material-ui/core/Typography";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import MapIcon from "@material-ui/icons/Map"; // MapIcon not Map, because Map is js keyword
+import Typography from "@material-ui/core/Typography";
+
+import Context from "../context";
 
 const Header = ({ classes }) => {
-  return <div>Header</div>;
+  const { state } = useContext(Context);
+  const { currentUser } = state;
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          {/* title / logo */}
+          <div className={classes.grow}>
+            <MapIcon className={classes.icon} />
+            <Typography component="h1" variant="h6" color="inherit" noWrap>
+              GeoPins
+            </Typography>
+          </div>
+
+          {/* Current user info */}
+          {currentUser && (
+            <div className={classes.grow}>
+              <img className={classes.picture} src={currentUser.picture} alt={currentUser.name} />
+              <Typography variant="h5" color="inherit" noWrap>
+                {currentUser.name}
+              </Typography>
+            </div>
+          )}
+
+          {/* Signout button */}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
 
 const styles = (theme) => ({
@@ -19,7 +50,7 @@ const styles = (theme) => ({
     alignItems: "center"
   },
   icon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(), // mui v4
     color: "green",
     fontSize: 45
   },
@@ -29,7 +60,7 @@ const styles = (theme) => ({
   picture: {
     height: "50px",
     borderRadius: "90%",
-    marginRight: theme.spacing.unit * 2
+    marginRight: theme.spacing(2) // mui v4
   }
 });
 
