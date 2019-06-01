@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -23,9 +24,19 @@ const CreatePin = ({ classes }) => {
     dispatch({ type: "DELETE_DRAFT" });
   };
 
+  const handleImageUpload = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "iiau0zhe"); // Upload presets name https://cloudinary.com/console/settings/upload
+    data.append("cloud_name", "dyvai5rk9"); // Cloud name https://cloudinary.com/console
+    const res = await axios.post("https://api.cloudinary.com/v1_1/dyvai5rk9/image/upload", data);
+    return res.data.url;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({ title, image, content });
+    const url = await handleImageUpload();
+    console.log({ title, image, content, url });
   };
 
   return (
@@ -139,3 +150,7 @@ const styles = (theme) => ({
 });
 
 export default withStyles(styles)(CreatePin);
+
+/*
+https://cloudinary.com/documentation/upload_images#uploading_with_a_direct_call_to_the_api
+*/
