@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Subscription } from "react-apollo";
 import ReactMapGL, { NavigationControl, Marker, Popup } from "react-map-gl";
 import differenceInMinutes from "date-fns/difference_in_minutes";
 import { withStyles } from "@material-ui/core/styles";
@@ -11,6 +12,11 @@ import Blog from "./Blog";
 
 import { GET_PINS_QUERY } from "../graphql/queries";
 import { DELETE_PIN_MUTATION } from "../graphql/mutations";
+import {
+  PIN_ADDED_SUBSCRIPTION,
+  PIN_UPDATED_SUBSCRIPTION,
+  PIN_DELETED_SUBSCRIPTION
+} from "../graphql/subscriptions";
 import { useClient } from "../hooks/useClient";
 import Context from "../context";
 
@@ -83,9 +89,14 @@ const Map = ({ classes }) => {
 
   const handleDeletePin = async (pin) => {
     const variables = { pinId: pin._id };
-    const { deletePin } = await client.request(DELETE_PIN_MUTATION, variables);
+    await client.request(DELETE_PIN_MUTATION, variables);
+
+    // const { deletePin } = await client.request(DELETE_PIN_MUTATION, variables);
+
+    // теперь вызываем dispatch в соответствующих подписках
     // console.log({ deletePin });
-    dispatch({ type: "DELETE_PIN", payload: deletePin });
+    // dispatch({ type: "DELETE_PIN", payload: deletePin });
+
     setPopup(null);
   };
 
@@ -165,6 +176,34 @@ const Map = ({ classes }) => {
           </Popup>
         )}
       </ReactMapGL>
+
+      {/* Subscriptions for Creating / Updating / Deleting Pin */}
+      <Subscription
+        subscription={PIN_ADDED_SUBSCRIPTION}
+        onSubscriptionData={({ subscriptionData }) => {
+          const { pinAdded } = subscriptionData.data;
+          console.log({ pinAdded });
+          dispatch({ type: "CREATE_PIN", payload: pinAdded });
+        }}
+      />
+
+      <Subscription
+        subscription={PIN_UPDATED_SUBSCRIPTION}
+        onSubscriptionData={({ subscriptionData }) => {
+          const { pinUpdated } = subscriptionData.data;
+          console.log({ pinUpdated });
+          dispatch({ type: "CREATE_COMMENT", payload: pinUpdated });
+        }}
+      />
+
+      <Subscription
+        subscription={PIN_DELETED_SUBSCRIPTION}
+        onSubscriptionData={({ subscriptionData }) => {
+          const { pinDeleted } = subscriptionData.data;
+          console.log({ pinDeleted });
+          dispatch({ type: "DELETE_PIN", payload: pinDeleted });
+        }}
+      />
 
       {/* Blog area to add Pin Content */}
       <Blog />

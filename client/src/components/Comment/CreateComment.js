@@ -12,14 +12,19 @@ import Context from "../../context";
 
 const CreateComment = ({ classes }) => {
   const client = useClient();
-  const { state, dispatch } = useContext(Context);
+  const { state } = useContext(Context);
   const [comment, setComment] = useState("");
 
   const handleSubmitComment = async () => {
     const variables = { pinId: state.currentPin._id, text: comment };
-    const { createComment } = await client.request(CREATE_COMMENT_MUTATION, variables);
-    console.log({ createComment });
-    dispatch({ type: "CREATE_COMMENT", payload: createComment });
+    await client.request(CREATE_COMMENT_MUTATION, variables);
+
+    // const { createComment } = await client.request(CREATE_COMMENT_MUTATION, variables);
+
+    // теперь вызываем dispatch в соответствующих подписках
+    // console.log({ createComment });
+    // dispatch({ type: "CREATE_COMMENT", payload: createComment });
+
     setComment("");
   };
 
