@@ -23,3 +23,11 @@ mutation($title: String!, $content: String!, $image: String!, $latitude: Float!,
   }
 }
 `;
+
+export const DELETE_PIN_MUTATION = `
+mutation($pinId: ID!) {
+  deletePin(pinId: $pinId) {
+    _id
+  }
+}
+`;
