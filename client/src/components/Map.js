@@ -45,6 +45,15 @@ const Map = ({ classes }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // remove popup if pin itself is deleted by the author of the pin
+  useEffect(() => {
+    const pinExists = popup && state.pins.findIndex((pin) => pin._id === popup._id) > -1;
+    if (!pinExists) {
+      setPopup(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.pins.length]);
+
   const getUserPostion = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
