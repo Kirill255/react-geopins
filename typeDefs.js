@@ -44,7 +44,18 @@ module.exports = gql`
     deletePin(pinId: ID!): Pin
     createComment(pinId: ID!, text: String!): Pin
   }
+
+  # наши подписки соотвествуют мутациям по порядку createPin -> pinAdded, deletePin -> pinDeleted, createComment -> pinUpdated
+  type Subscription {
+    pinAdded: Pin
+    pinDeleted: Pin
+    pinUpdated: Pin
+  }
 `;
+
+/* graphql comments
+https://stackoverflow.com/questions/39962867/how-do-i-add-a-description-to-a-field-in-graphql-schema-language
+*/
 
 /*
 query {
