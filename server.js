@@ -31,6 +31,12 @@ const server = new ApolloServer({
 
     return { currentUser };
   }
+  // при деплое на сервер, по умолчанию playground будет выключена и в целях безопасности лучше её не включать, но если сильно нужно то
+  // https://www.apollographql.com/docs/apollo-server/features/graphql-playground/#enabling-graphql-playground-in-production
+  // introspection: true,
+  // playground: true
 });
 
-server.listen().then(({ url }) => console.log(`Server starting listening on ${url}`));
+server
+  .listen({ port: process.env.PORT || 4000 })
+  .then(({ url }) => console.log(`Server starting listening on ${url}`));
