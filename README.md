@@ -49,3 +49,11 @@ Please check IP whitelist or firewall. My case by default Atlas mongodb allowed 
 7. (optional) If you want your app to work offline and load faster, you can change `serviceWorker.unregister()` to `serviceWorker.register()`
 
 8. We are now ready to deploy the app run `now` from client folder
+
+**Console.developers.google.com**
+
+`Error: redirect_uri_mismatch`
+
+1. Now we must add new authorized javascript origins(Разрешенные источники JavaScript) `https://react-geopins-9aqlnm9yi.now.sh`
+
+2. But firtable we must add authorized domain to authorized domains list(Авторизованные домены) `react-geopins-9aqlnm9yi.now.sh`, than step 1 again!
